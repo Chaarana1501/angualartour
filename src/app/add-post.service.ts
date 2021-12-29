@@ -23,5 +23,9 @@ export class AddPostService {
   getPost(permaLink: Number):Observable<PostPayload> {
     return this.httpClient.get<PostPayload>(environment.baseUrl + 'api/posts/get/' + permaLink);
   }
+
+  deletePost(permaLink: Number):Observable<PostPayload> {
+    return this.httpClient.delete<PostPayload>(environment.baseUrl + 'api/posts/delete/' + permaLink);
+  }
 }
 

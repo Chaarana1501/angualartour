@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AddPostService} from '../add-post.service';
 import {PostPayload} from '../add-post/post-payload';
 
@@ -13,7 +13,7 @@ export class PostComponent implements OnInit {
   post!: PostPayload;
   permaLink!: Number;
 
-  constructor(private router: ActivatedRoute, private postService: AddPostService) {
+  constructor(private router: ActivatedRoute, private postService: AddPostService,private routerRedirect: Router) {
   }
 
   ngOnInit() {
@@ -27,5 +27,12 @@ export class PostComponent implements OnInit {
       console.log('Failure Response');
     })
   }
+  onDelete(){
+    this.postService.deletePost(this.permaLink).subscribe((data:PostPayload) => {
+      this.routerRedirect.navigateByUrl('/');
+    },(err: any) => {
+      console.log('Failure Response');
+    })
 
+  }
 }
