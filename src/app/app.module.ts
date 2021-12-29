@@ -49,7 +49,7 @@ import {AuthGuard} from './auth.guard';
     ReactiveFormsModule,
     EditorModule
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: HttpClientInterceptor, multi: true}],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: HttpClientInterceptor, multi: true},AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
