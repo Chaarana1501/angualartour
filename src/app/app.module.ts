@@ -9,18 +9,45 @@ import {LocalStorageService} from 'ngx-webstorage';
 import {StorageServiceModule} from 'ngx-webstorage-service';
 import {Ng2Webstorage} from 'ng2-webstorage';
 import {AppInterceptorService} from './AppInterceptorService';
+import { AddPostComponent } from './add-post/add-post.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {EditorModule} from '@tinymce/tinymce-angular';
+import { HomeComponent } from './home/home.component';
+import { PostComponent } from './post/post.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { RegisterSuccessComponent } from './auth/register-success/register-success.component';
+import {RouterModule} from '@angular/router';
+import {AuthGuard} from './auth.guard';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    AddPostComponent,
+    HomeComponent,
+    PostComponent,
+    LoginComponent,
+    RegisterComponent,
+    RegisterSuccessComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     StorageServiceModule,
-    Ng2Webstorage.forRoot()
+    Ng2Webstorage.forRoot(),
+    RouterModule.forRoot([
+      {path: '', component: HomeComponent},
+      {path: 'register', component: RegisterComponent},
+      {path: 'post/:id', component: PostComponent},
+      {path: 'login', component: LoginComponent},
+      {path: 'register-success', component: RegisterSuccessComponent},
+      {path: 'home', component: HomeComponent},
+      {path: 'add-post', component: AddPostComponent, canActivate: [AuthGuard]}
+    ]),
+    ReactiveFormsModule,
+    EditorModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: HttpClientInterceptor, multi: true}],
   bootstrap: [AppComponent]
