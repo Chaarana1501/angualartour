@@ -5,6 +5,7 @@ import {AddPostService} from '../add-post.service';
 import {Router} from '@angular/router';
 
 
+declare const tinymce: any;
 @Component({
   selector: 'app-add-post',
   templateUrl: './add-post.component.html',
@@ -47,24 +48,39 @@ export class AddPostComponent implements OnInit {
   }
 
   // @ts-ignore
-  filePickerCallback(callback, value, meta) {
-    /* Provide file and text for the link dialog */
-    console.log("momo");
-    if (meta.filetype === 'file') {
-      callback('https://www.google.com/logos/google.jpg', { text: 'My text' });
-    }
+  filePickerCallback(callback, value, meta){
+    var input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
 
-    /* Provide image and alt text for the image dialog */
-    if (meta.filetype === 'image') {
-      callback('https://www.google.com/logos/google.jpg', { alt: 'My alt text' });
-    }
+    // Note: In modern browsers input[type="file"] is functional without
+    // even adding it to the DOM, but that might not be the case in some older
+    // or quirky browsers like IE, so you might want to add it to the DOM
+    // just in case, and visually hide it. And do not forget do remove it
+    // once you do not need it anymore.
 
-    /* Provide alternative source and posted for the media dialog */
-    if (meta.filetype === 'media') {
-      callback('movie.mp4', { source2: 'alt.ogg', poster: 'https://www.google.com/logos/google.jpg' });
-    }
+    input.onchange = function() {
+      // @ts-ignore
+      var file = input.files[0];
 
-    return;
-  };
+      var reader = new FileReader();
+      reader.onload = function () {
+        // Note: Now we need to register the blob in TinyMCEs image blob
+        // registry. In the next release this part hopefully won't be
+        // necessary, as we are looking to handle it internally.
+        var id = 'blobid' + (new Date()).getTime();
+        var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+        // @ts-ignore
+        var base64 = reader.result.split(',')[1];
+        var blobInfo = blobCache.create(id, file, base64);
+        blobCache.add(blobInfo);
+
+        // call the callback and populate the Title field with the file name
+        callback(blobInfo.blobUri(), { title: file.name });
+      };
+      reader.readAsDataURL(file);
+    };
+    input.click();
+  }
 
 }
