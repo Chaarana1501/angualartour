@@ -7,6 +7,7 @@ import {JwtAutResponse} from './jwt-aut-response';
 import {map} from 'rxjs/operators';
 import {LocalStorageService} from '../local-storage-service';
 import {environment} from '../../environments/environment';
+import {Store} from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ import {environment} from '../../environments/environment';
 export class AuthService {
   private url = environment.baseUrl + 'api/auth/';
 
-  constructor(private httpClient: HttpClient, private localStoraqeService: LocalStorageService) {
+  constructor(private store: Store<any>,private httpClient: HttpClient, private localStoraqeService: LocalStorageService) {
   }
 
   register(registerPayload: RegisterPayload): Observable<any> {
@@ -25,6 +26,7 @@ export class AuthService {
     return this.httpClient.post<JwtAutResponse>(this.url + 'login', loginPayload).pipe(map(data => {
       this.localStoraqeService.store('authenticationToken', data.authenticationToken+"");
       this.localStoraqeService.store('username', data.username+"");
+      this.store.dispatch({type:data.username+""});
       return true;
     }));
   }

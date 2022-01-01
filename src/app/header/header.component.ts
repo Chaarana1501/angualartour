@@ -1,5 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
+import {ActivatedRoute} from '@angular/router';
+import {Store} from '@ngrx/store';
+
 
 @Component({
   selector: 'app-header',
@@ -8,11 +11,14 @@ import {AuthService} from '../auth/auth.service';
 })
 export class HeaderComponent implements OnInit {
 
-  user: string = '';
-  constructor(public authService: AuthService) {
+  user: any;
+
+  constructor(private store: Store<any>, private router: ActivatedRoute, public authService: AuthService) {
+    this.store.subscribe(data => this.user=data?.user?.user);
   }
 
   ngOnInit() {
+
     this.user = this.authService.getUser();
   }
 

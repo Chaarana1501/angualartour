@@ -19,6 +19,9 @@ import { RegisterComponent } from './auth/register/register.component';
 import { RegisterSuccessComponent } from './auth/register-success/register-success.component';
 import {RouterModule} from '@angular/router';
 import {AuthGuard} from './auth.guard';
+import {StoreModule, StoreRootModule} from '@ngrx/store';
+import {userRducer} from './store/store';
+
 
 @NgModule({
   declarations: [
@@ -36,6 +39,7 @@ import {AuthGuard} from './auth.guard';
     AppRoutingModule,
     HttpClientModule,
     StorageServiceModule,
+    StoreModule.forRoot({user:userRducer}),
     Ng2Webstorage.forRoot(),
     RouterModule.forRoot([
       {path: '', component: HomeComponent},
