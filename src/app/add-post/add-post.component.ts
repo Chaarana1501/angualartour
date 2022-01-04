@@ -60,6 +60,7 @@ alert("je declare le inpute");
     // once you do not need it anymore.
 
     input.onchange = function() {
+      alert("je suis dans onchange");
       // @ts-ignore
       var file = input.files[0];
       alert("je recupere le file "+file);
