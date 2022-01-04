@@ -59,7 +59,7 @@ alert("je declare le inpute");
     // just in case, and visually hide it. And do not forget do remove it
     // once you do not need it anymore.
 
-    input.onchange = function() {
+    input.addEventListener('change', function() {
       alert("je suis dans onchange");
       // @ts-ignore
       var file = input.files[0];
@@ -82,7 +82,7 @@ alert("je declare le inpute");
         callback(blobInfo.blobUri(), { title: file.name });
       };
       reader.readAsDataURL(file);
-    };
+    });
     input.click();
   }
 
