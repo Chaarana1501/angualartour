@@ -60,10 +60,10 @@ alert("je declare le inpute");
     // once you do not need it anymore.
 
     input.addEventListener('change', function() {
-      alert("je suis dans onchange");
-      // @ts-ignore
+      console.log("je suis dans onchange");
+      console.log// @ts-ignore
       var file = input.files[0];
-      alert("je recupere le file "+file);
+      console.log("je recupere le file "+file);
 
       var reader = new FileReader();
       reader.onload = function () {
@@ -76,7 +76,7 @@ alert("je declare le inpute");
         var base64 = reader.result.split(',')[1];
         var blobInfo = blobCache.create(id, file, base64);
         blobCache.add(blobInfo);
-        alert("ID blob ="+id);
+        console.log("ID blob ="+id);
 
         // call the callback and populate the Title field with the file name
         callback(blobInfo.blobUri(), { title: file.name });
