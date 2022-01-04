@@ -52,7 +52,7 @@ export class AddPostComponent implements OnInit {
     var input = document.createElement('input');
     input.setAttribute('type', 'file');
     input.setAttribute('accept', 'image/*');
-alert("je declare le inpute");
+console.log("je declare le inpute");
     // Note: In modern browsers input[type="file"] is functional without
     // even adding it to the DOM, but that might not be the case in some older
     // or quirky browsers like IE, so you might want to add it to the DOM
